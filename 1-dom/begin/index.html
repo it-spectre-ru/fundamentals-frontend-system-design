@@ -1,39 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Frontend System Design Fundamentals</title>
-    <link rel="stylesheet" href="./index.css">
-</head>
-<body>
-<main id="container"></main>
-</body>
-<script>
-    const container = document.getElementById('container');
-    const html = `<article class="card">
-    <h3 class="card__title"></h3>
-    <div class="card__body">
-      <div class='card__body__image'></div>
-      <section class='card__body__content'>
-      </section>
-    </div>
-  </article>`;
 
-    /**
-     * @param {string} title
-     * @param {string} body
-     *
-     * @return {HTMLElement
-     */
-    function createCardComponent(title, body) {
-        // @todo - Implement function
+<head>
+  <meta charset="UTF-8">
+  <title>Frontend System Design Fundamentals</title>
+  <link rel="stylesheet" href="./index.css">
+  <template id="card_template">
+    <article class="card">
+      <h3></h3>
+      <div class="card__body">
+        <div class='card__body__image'></div>
+        <section class='card__body__content'>
+        </section>
+      </div>
+    </article>
+  </template>
+</head>
+
+<body>
+  <main id="container">
+
+  </main>
+  <script>
+    // Get the main container element where cards will be appended
+    const container = document.getElementById('container');
+
+    // Function to create a new card element with title and body content
+    function createCardElement(title, body) {
+      // Get the template element that contains the card structure
+      const template = document.getElementById('card_template');
+
+      // Clone the template content (deep clone with true) and get the first element (article)
+      // This creates a new instance of the card without modifying the original template
+      const element = template.content.cloneNode(true).firstElementChild;
+
+      // Get the h3 (title) and section (body) elements from the cloned card
+      // Using destructuring assignment with array of length 1
+      const [cardTitle] = element.getElementsByTagName("h3");
+      const [cardBody] = element.getElementsByTagName("section");
+
+      // Set the text content of title and body using destructuring assignment
+      // This is equivalent to:
+      // cardTitle.textContent = title;
+      // cardBody.textContent = body;
+      [cardTitle.textContent, cardBody.textContent] = [title, body];
+
+      // Return the fully populated card element
+      return element;
     }
 
-    const component = createCardComponent(
-        "Frontend System Design: Fundamentals",
-        "This is a random body text"
-    );
+    // Create a new card with specified title and body content
+    // Then append it to the main container
+    container.appendChild(createCardElement(
+      "Frontend System Design: Fundamentals",
+      "This is a random content"
+    ))
+  </script>
+</body>
 
-    container.appendChild(component);
-</script>
 </html>
